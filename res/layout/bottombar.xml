@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:orientation="horizontal"
+              android:background="#ffd6ffe4"
+              android:layout_height="match_parent">
+    <Button
+            android:id="@+id/tab_bottom_weixin"
+            android:background="#ffd6ffe4"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:text="@string/f1_name"/>
+    <Button
+            android:id="@+id/tab_bottom_friend"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ffd6ffe4"
+            android:layout_weight="1"
+            android:text="@string/f2_name"/>
+    <Button
+            android:id="@+id/tab_bottom_found"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:background="#ffd6ffe4"
+            android:layout_weight="1"
+            android:text="@string/f3_name"/>
+    <Button
+            android:id="@+id/tab_bottom_me"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:background="#ffd6ffe4"
+            android:layout_weight="1"
+            android:text="@string/f4_name"/>
+</LinearLayout>

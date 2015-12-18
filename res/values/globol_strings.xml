@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--buttonbar-->
+    <string name="app_name">我不是微信</string>
+    <string name="f1_name">微信</string>
+    <string name="f2_name">通讯录</string>
+    <string name="f3_name">发现</string>
+    <string name="f4_name">我</string>
+    <!--topbar-->
+    <string name="action_add">添加</string>
+    <string name="action_search">添加</string>
+</resources>

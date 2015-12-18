@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="edit_message">Enter a message</string>
+    <string name="button_send">Send</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_display_message">My Message</string>
+    <string name="add_frield_title">添加朋友</string>
+    <string name="label_username">用户名:</string>
+    <string name="label_password">密码:</string>
+    <string name="hint_username">请输入用户名</string>
+    <string name="hint_password">请输入密码</string>
+    <string name="login_btn">登录</string>
+</resources>
