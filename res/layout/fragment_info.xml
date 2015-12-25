@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical">
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <TextView android:layout_width="69dp"
+                      style="@style/CodeFont"
+                      android:text="@string/label_username"
+                      android:textStyle="bold"/>
+            <TextView
+                    style="@style/CodeFont"
+                    android:id="@+id/userName"
+                    android:singleLine="true"/>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            <TextView android:layout_width="69dp"
+                      style="@style/CodeFont"
+                      android:text="@string/label_password"
+                      android:textStyle="bold"/>
+            <TextView
+                    style="@style/CodeFont"
+                    android:id="@+id/password"
+                    android:singleLine="true"/>
+        </LinearLayout>
+</LinearLayout>

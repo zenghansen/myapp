@@ -62,8 +62,6 @@ public class MessageFragment extends ListFragment implements View.OnClickListene
     public void onListItemClick(ListView l, View v, int position, long id) {
         String item = (String) getListAdapter().getItem(position);
         Toast.makeText(this.getActivity(), item + " selected", Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(this.getActivity(), LoginActivity.class);
-        startActivity(intent);
     }
 
     @Override

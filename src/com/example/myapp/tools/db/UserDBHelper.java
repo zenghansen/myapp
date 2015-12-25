@@ -5,6 +5,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class UserDBHelper extends SQLiteOpenHelper {
     public static final String USER_DBNAME = "user.db";
 
@@ -15,7 +18,7 @@ public class UserDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE table IF NOT EXISTS user"
-                + " (_id INTEGER PRIMARY KEY AUTOINCREMENT, userId TEXT, token TEXT)");
+                + " (_id INTEGER PRIMARY KEY AUTOINCREMENT, userId TEXT, token TEXT,updateAt TEXT)");
     }
 
     @Override
@@ -38,10 +41,11 @@ public class UserDBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery("select * from user where userId=?",
                 new String[]{userId});
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         if (c.moveToFirst()) {
             db.execSQL(
-                    "update user set token=? where userId=?",
-                    new Object[]{token, userId});
+                    "update user set token=?,updateAt=? where userId=?",
+                    new Object[]{token,df.format(new Date()).toString(), userId});
             db.close();
         } else {
             db.execSQL(

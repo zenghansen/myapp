@@ -22,7 +22,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.Button;
+import android.widget.Toast;
 import com.example.myapp.fragments.FriendFragment;
+import com.example.myapp.fragments.InfoFragment;
 import com.example.myapp.fragments.MessageFragment;
 import com.example.myapp.tools.db.UserDBHelper;
 
@@ -31,11 +33,13 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private Button mTabWeixin;
     private Button mTabFriend;
+    private Button mTabMe;
 
     private MessageFragment mWeixin;
     private FriendFragment mFriend;
+    private InfoFragment mInfo;
 
-    private Integer REQUEST_EXIT = 1;
+    public static Integer REQUEST_EXIT = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -44,15 +48,17 @@ public class MainActivity extends Activity implements View.OnClickListener {
         UserDBHelper db = new UserDBHelper(this);
         String uid = db.getUid();
         if(uid ==null){
-            startActivityForResult(new Intent(this, LoginActivity.class), REQUEST_EXIT);
+            this.finish();
         }else {
             setContentView(R.layout.main1);
 
             // 初始化控件和声明事件
             mTabWeixin = (Button) findViewById(R.id.tab_bottom_weixin);
             mTabFriend = (Button) findViewById(R.id.tab_bottom_friend);
+            mTabMe = (Button) findViewById(R.id.tab_bottom_me);
             mTabWeixin.setOnClickListener(this);
             mTabFriend.setOnClickListener(this);
+            mTabMe.setOnClickListener(this);
 
             // 设置默认的Fragment
             setDefaultFragment();
@@ -96,18 +102,33 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 add.setVisibility(View.VISIBLE);
                 transaction.replace(R.id.id_content, mFriend);
                 break;
+            case R.id.tab_bottom_me:
+                if (mInfo == null)
+                {
+                    mInfo = new InfoFragment();
+                }
+                add.setVisibility(View.GONE);
+                transaction.replace(R.id.id_content, mInfo);
+                break;
         }
          //transaction.addToBackStack();
         // 事务提交
         transaction.commit();
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (requestCode == REQUEST_EXIT) {
-            if (resultCode == RESULT_OK) {
-                this.finish();
+    private long exitTime = 0;
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
+            if((System.currentTimeMillis()-exitTime) > 2000){
+                Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                setResult(RESULT_OK, null);
+                finish();
             }
+            return true;
         }
+        return super.onKeyDown(keyCode, event);
     }
 }

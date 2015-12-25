@@ -1,5 +1,7 @@
 package com.example.myapp.tools;
 
+import android.util.Base64;
+import com.example.myapp.tools.db.UserDBHelper;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -8,10 +10,14 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.protocol.HTTP;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.security.PrivateKey;
+import java.security.PublicKey;
 import java.util.*;
 
 /**
@@ -20,13 +26,47 @@ import java.util.*;
 public class HttpRequest {
     private String Url = null;
     private HashMap<String, String> params = null;
+    private String public_key =
+            "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDO/ig5paho0yJwsR5FUZyq50Tw\n" +
+                    "49fFu0im86EkLQoGaaCOEtfDotjsOX09YATSO0N5cJyM+4byU8gPMUO0DpCyxkJH\n" +
+                    "L27CQ6ZyznddI809QtcwQwxPxTvVR7b/urnwwc34QMCVPQrUM/W8gLC4Vf0QbdnA\n" +
+                    "gvDJmdjHLzvRwKyc3wIDAQAB";
 
     public HttpRequest(String Url, HashMap params) {
         this.Url = Url;
+        if (params.containsKey("token")) {//token转换为签名signature
+            params.put("token", signature(params.get("token").toString()));
+        }
         this.params = params;
     }
 
-    public HashMap<String, Object> sendHttp() {
+    public HashMap sendHttp() {
+        HashMap<String, Object> ret = send();
+        HashMap re = new HashMap() {{
+            put("error", true);
+        }};
+        if ((Boolean) ret.get("error")) {
+            re.put("msg", "通讯失败");
+        } else {
+            JSONObject data = (JSONObject) ret.get("data");
+            try {
+                int err = data.getInt("error");
+                if (err == 1) {
+                    re.put("msg", data.getString("msg"));
+                } else {
+                    re.put("error", false);
+                    re.put("msg", data.getString("msg"));
+                    JSONObject info = (JSONObject) data.get("data");
+                    re.put("data", info);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return re;
+    }
+
+    public HashMap<String, Object> send() {
         HashMap result = new HashMap() {{
             put("error", true);
         }};
@@ -83,7 +123,7 @@ public class HttpRequest {
                 JSONObject jsonObject = new JSONObject(builder.toString());
 
                 //通过得到键值对的方式得到值
-               // Integer id = jsonObject.getInt("user_id");
+                // Integer id = jsonObject.getInt("user_id");
                 //在线程中判断是否得到成功从服务器得到数据
                 result.put("error", false);
                 result.put("data", jsonObject);
@@ -95,5 +135,23 @@ public class HttpRequest {
         }
 
         return result;
+    }
+
+    /**
+     * 签名算法
+     * 现在时间戳
+     */
+    private String signature(String token) {
+        Integer seconds = (int) (System.currentTimeMillis() / 1000);
+        String source = token + "," + seconds.toString();
+        String afterencrypt = null;
+        try {
+            PublicKey publicKey = RSAUtils.loadPublicKey(public_key);
+            byte[] encryptByte = RSAUtils.encryptData(source.getBytes(), publicKey);
+            afterencrypt = Base64Utils.encode(encryptByte);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return afterencrypt;
     }
 }
