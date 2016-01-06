@@ -18,5 +18,7 @@
         </activity>
         <activity android:name=".MainActivity"/>
         <activity android:name=".AddFrieldActivity"/>
+        <activity android:name=".ChatActivity"/>
+        <activity android:name=".EditInfoActivity"/>
     </application>
 </manifest>

@@ -82,7 +82,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
         FragmentTransaction transaction = fm.beginTransaction();
         View viewById = this.findViewById(R.id.id_fragment_title);
         Button add = (Button) viewById.findViewById(R.id.action_addfrield);
+        Button editInfo = (Button) viewById.findViewById(R.id.editInfo);
 
+        add.setVisibility(View.GONE);
+        editInfo.setVisibility(View.GONE);
         switch (v.getId())
         {
             case R.id.tab_bottom_weixin:
@@ -90,7 +93,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 {
                     mWeixin = new MessageFragment();
                 }
-                add.setVisibility(View.GONE);
                 // 使用当前Fragment的布局替代id_content的控件
                 transaction.replace(R.id.id_content, mWeixin);
                 break;
@@ -107,7 +109,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 {
                     mInfo = new InfoFragment();
                 }
-                add.setVisibility(View.GONE);
+                editInfo.setVisibility(View.VISIBLE);
                 transaction.replace(R.id.id_content, mInfo);
                 break;
         }

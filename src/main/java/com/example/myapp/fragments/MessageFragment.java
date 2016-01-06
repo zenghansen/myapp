@@ -1,71 +1,98 @@
 package com.example.myapp.fragments;
 
+import android.app.Activity;
 import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.Toast;
-import com.example.myapp.AddFrieldActivity;
-import com.example.myapp.LoginActivity;
-import com.example.myapp.R;
+import android.widget.*;
+import com.example.myapp.*;
 import com.example.myapp.custom.CustomList;
+import com.example.myapp.tools.Auth;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 public class MessageFragment extends ListFragment implements View.OnClickListener {
+    private String[] uid = null;
+    private View view = null;
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        String[] label ={
-                "item1",
-                "item2",
-                "item3",
-                "item4",
-                "item5",
-                "item6",
-                "item7",
-                "item8",
-                "item9",
-                "item10"
-        };
-        Integer[] icon = new Integer[]{
-                R.drawable.headpic,
-                R.drawable.headpic,
-                R.drawable.headpic,
-                R.drawable.headpic,
-                R.drawable.headpic,
-                R.drawable.headpic,
-                R.drawable.headpic,
-                R.drawable.headpic,
-                R.drawable.headpic,
-                R.drawable.ic_action_search,
-        };
-        CustomList adapter = new
-                CustomList(getActivity(), label, icon);
-        setListAdapter(adapter);
-        View viewById = getActivity().findViewById(R.id.id_fragment_title);
-        Button actionAdd = (Button) viewById.findViewById(R.id.action_addfrield);
 
-        actionAdd.setOnClickListener(this);
+        final HashMap map = new HashMap() {{
+            put("uid", Auth.uid);
+            put("token", Auth.token);
+        }};
+        final Activity at = this.getActivity();
+        Runnable downloadRun = new Runnable() {
+            @Override
+            public void run() {
+                HashMap ret = new Auth().getFrields();
+                mHandler.obtainMessage(1, ret).sendToTarget();
+            }
+        };
+        new Thread(downloadRun).start();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_message, container, false);
+        view = inflater.inflate(R.layout.fragment_message, container, false);
+        return view;
     }
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         String item = (String) getListAdapter().getItem(position);
         Toast.makeText(this.getActivity(), item + " selected", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this.getActivity(), ChatActivity.class);
+        intent.putExtra("uid", uid[position]);
+        startActivity(intent);
     }
 
     @Override
     public void onClick(View v) {
 
     }
+
+    private Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            String str = "info";
+            HashMap map = (HashMap) msg.obj;
+            str = map.get("msg").toString();
+            if (getActivity() != null) {
+                if (!(Boolean) map.get("error")) {
+                    JSONArray data = (JSONArray) map.get("data");
+                    String[] label = new String[data.length()];
+                    Integer[] icon = new Integer[data.length()];
+                    uid = new String[data.length()];
+                    for (int i = 0; i < data.length(); i++) {
+                        try {
+                            JSONObject info = (JSONObject) data.get(i);
+                            label[i] = info.getString("name");
+                            uid[i] = info.getString("id");
+                            icon[i] = R.drawable.headpic;
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                    CustomList adapter = new
+                            CustomList(getActivity(), label, icon, uid);
+                    setListAdapter(adapter);
+                }
+                Toast.makeText(getActivity().getApplicationContext(), str,
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
 }

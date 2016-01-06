@@ -23,11 +23,17 @@
                 android:layout_height="wrap_content">
             <TextView android:layout_width="69dp"
                       style="@style/CodeFont"
-                      android:text="@string/label_password"
+                      android:text="@string/label_nickname"
                       android:textStyle="bold"/>
             <TextView
                     style="@style/CodeFont"
-                    android:id="@+id/password"
+                    android:id="@+id/nickname"
                     android:singleLine="true"/>
         </LinearLayout>
+    <Button android:layout_width="100dp"
+            android:id="@+id/action_exit"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:text="@string/exit_btn"
+            android:layout_height="wrap_content"/>
 </LinearLayout>

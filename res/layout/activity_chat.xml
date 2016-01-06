@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+    <fragment
+            android:id="@+id/id_fragment_title"
+            android:name="com.example.myapp.fragments.TitleFragment"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            tools:layout="@layout/fragment_title"/>
+    <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_above="@+id/sendMsg"
+            android:layout_below="@+id/id_fragment_title"
+            android:scrollbars="vertical"
+            android:fadingEdge="vertical"
+            >
+        <LinearLayout android:layout_width="match_parent"
+                      android:id="@+id/msgContent"
+                      android:layout_height="match_parent"
+                      android:orientation="vertical">
+        </LinearLayout>
+    </ScrollView>
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentBottom="true"
+                  android:id="@+id/sendMsg"
+                  android:orientation="horizontal">
+        <EditText android:layout_width="match_parent"
+                  android:id="@+id/sendText"
+                  android:layout_weight="0.5"
+                  android:textSize="20sp"
+                  android:layout_height="wrap_content"/>
+        <Button android:layout_width="match_parent"
+                android:id="@+id/sendBtn"
+                android:text="@string/send_btn"
+                android:layout_weight="2"
+                android:layout_height="wrap_content"/>
+    </LinearLayout>
+</RelativeLayout>

@@ -58,7 +58,7 @@ public class UserDBHelper extends SQLiteOpenHelper {
 
     public String getUid(){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor c = db.rawQuery("select * from user limit 1",
+        Cursor c = db.rawQuery("select * from user order by _id desc limit 1",
                 new String[]{});
         if (c.moveToFirst()) {
             return c.getString(c.getColumnIndex("userId"));

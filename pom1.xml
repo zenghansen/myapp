@@ -7,7 +7,20 @@
     <groupId>groupId</groupId>
     <artifactId>appstudy</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <platform.version>4.1.1.1</platform.version>
+       <!-- <android.plugin.version>3.8.2</android.plugin.version>-->
+        <!-- 或者配置ANDROID_SDK 环境变量 -->
+        <android.sdk.path>E:/android/android-sdk-windows</android.sdk.path>
+    </properties>
     <dependencies>
+        <dependency>
+            <groupId>com.google.android</groupId>
+            <artifactId>android</artifactId>
+            <version>${platform.version}</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>

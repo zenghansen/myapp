@@ -12,13 +12,14 @@ public class CustomList extends ArrayAdapter<String> {
 
     private final Activity context;
     private final String[] web;
+    public final String[] uid;
     private final Integer[] imageId;
-
     public CustomList(Activity context,
-                      String[] web, Integer[] imageId) {
+                      String[] web, Integer[] imageId,String[] uid) {
         super(context, R.layout.fragment_message_list, web);
         this.context = context;
         this.web = web;
+        this.uid = uid;
         this.imageId = imageId;
 
     }
@@ -31,6 +32,7 @@ public class CustomList extends ArrayAdapter<String> {
 
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
         txtTitle.setText(web[position]);
+        txtTitle.setId(Integer.parseInt(uid[position]));
 
         imageView.setImageResource(imageId[position]);
         return rowView;

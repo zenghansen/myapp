@@ -31,6 +31,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_login);
 
         findViewById(R.id.doLogin).setOnClickListener(this);
+        findViewById(R.id.doReg).setOnClickListener(this);
 
         final Activity at = this;
         Runnable downloadRun = new Runnable() {
@@ -49,6 +50,9 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.doLogin:
                 this.doLogin();
+                break;
+            case R.id.doReg:
+                this.doReg();
                 break;
         }
     }
@@ -71,8 +75,32 @@ public class LoginActivity extends Activity implements View.OnClickListener {
         Runnable downloadRun = new Runnable() {
             @Override
             public void run() {
-                HashMap ret = new Auth().Login(map,at);
+                HashMap ret = new Auth().Login(map, at);
                 mHandler.obtainMessage(1, ret).sendToTarget();
+            }
+        };
+        new Thread(downloadRun).start();
+    }
+    private void doReg() {
+        final EditText email = (EditText) findViewById(R.id.userName);
+        final EditText password = (EditText) findViewById(R.id.password);
+        final String emailStr = email.getText().toString();
+        final String passwordStr = password.getText().toString();
+        if (emailStr.equals("") || passwordStr.equals("")) {
+            Toast.makeText(getApplicationContext(), "账号或密码不能为空",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+        final HashMap map = new HashMap() {{
+            put("email", emailStr);
+            put("password", passwordStr);
+        }};
+        final Activity at = this;
+        Runnable downloadRun = new Runnable() {
+            @Override
+            public void run() {
+                HashMap ret = new Auth().Reg(map, at);
+                regHandler.obtainMessage(1, ret).sendToTarget();
             }
         };
         new Thread(downloadRun).start();
@@ -80,7 +108,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
 
     private Handler verifyHandler = new Handler() {
         public void handleMessage(Message msg) {
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            startActivityForResult(new Intent(LoginActivity.this, MainActivity.class), MainActivity.REQUEST_EXIT);
 
         }
     };
@@ -89,17 +117,22 @@ public class LoginActivity extends Activity implements View.OnClickListener {
             String str = "info";
             HashMap map = (HashMap) msg.obj;
             str = map.get("msg").toString();
-            if (!(boolean) map.get("error")) {
-                Toast.makeText(getApplicationContext(), str,
-                        Toast.LENGTH_SHORT).show();
-
+            Toast.makeText(getApplicationContext(), str,
+                    Toast.LENGTH_SHORT).show();
+            if (!(Boolean) map.get("error")) {
                 startActivityForResult(new Intent(LoginActivity.this, MainActivity.class), MainActivity.REQUEST_EXIT);
             }
+        }
+    };
+    private Handler regHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            String str = "info";
+            HashMap map = (HashMap) msg.obj;
+            str = map.get("msg").toString();
             Toast.makeText(getApplicationContext(), str,
                     Toast.LENGTH_SHORT).show();
         }
     };
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 

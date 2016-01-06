@@ -34,17 +34,24 @@ public class HttpRequest {
 
     public HttpRequest(String Url, HashMap params) {
         this.Url = Url;
-        if (params.containsKey("token")) {//token转换为签名signature
-            params.put("token", signature(params.get("token").toString()));
-        }
         this.params = params;
     }
 
     public HashMap sendHttp() {
-        HashMap<String, Object> ret = send();
+
         HashMap re = new HashMap() {{
             put("error", true);
         }};
+        if (this.params.containsKey("uid")) {
+            if (this.params.containsKey("token")) {//token转换为签名signature
+                this.params.put("token", signature(params.get("token").toString()));
+            } else {
+                re.put("msg", "缺少token参数");
+                return re;
+            }
+
+        }
+        HashMap ret = this.send();
         if ((Boolean) ret.get("error")) {
             re.put("msg", "通讯失败");
         } else {
@@ -56,7 +63,7 @@ public class HttpRequest {
                 } else {
                     re.put("error", false);
                     re.put("msg", data.getString("msg"));
-                    JSONObject info = (JSONObject) data.get("data");
+                    Object info = (Object) data.get("data");
                     re.put("data", info);
                 }
             } catch (JSONException e) {

@@ -23,6 +23,18 @@
             android:visibility="gone"
             android:text="@string/action_add"
             />
+    <Button
+            android:id="@+id/editInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:textColor="#fff"
+            android:background="#000"
+            android:layout_marginRight="3dp"
+            android:visibility="gone"
+            android:text="@string/action_editInfo"
+            />
     <TextView
             android:id="@+id/app_title"
             android:layout_width="fill_parent"

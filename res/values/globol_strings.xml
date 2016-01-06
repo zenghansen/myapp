@@ -9,4 +9,10 @@
     <!--topbar-->
     <string name="action_add">添加</string>
     <string name="action_search">添加</string>
+    <string name="action_editInfo">修改信息</string>
+
+
+    <string name="action_confirm">确定</string>
+
+
 </resources>
