@@ -45,7 +45,7 @@ public class UserDBHelper extends SQLiteOpenHelper {
         if (c.moveToFirst()) {
             db.execSQL(
                     "update user set token=?,updateAt=? where userId=?",
-                    new Object[]{token,df.format(new Date()).toString(), userId});
+                    new Object[]{token, df.format(new Date()).toString(), userId});
             db.close();
         } else {
             db.execSQL(
@@ -56,11 +56,15 @@ public class UserDBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public String getUid(){
+    public String getUid() {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery("select * from user order by _id desc limit 1",
                 new String[]{});
         if (c.moveToFirst()) {
+            Integer uid = c.getInt(c.getColumnIndex("userId"));
+            db.execSQL(
+                    "delete from user where userId <> ?",
+                    new Object[]{uid});
             return c.getString(c.getColumnIndex("userId"));
         } else {
             return null;

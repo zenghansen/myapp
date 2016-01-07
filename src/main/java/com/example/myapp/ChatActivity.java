@@ -55,8 +55,7 @@ public class ChatActivity extends Activity implements View.OnClickListener {
         text.setText(bundle.getString("tname"));
         doChat();
 
-        ScrollView sv = (ScrollView) findViewById(R.id.scrollView);
-        sv.fullScroll(ScrollView.FOCUS_DOWN);//滚动到底部
+        new Thread(sl).start();
     }
 
     @Override
@@ -96,24 +95,27 @@ public class ChatActivity extends Activity implements View.OnClickListener {
                 LinearLayout layout = (LinearLayout) findViewById(R.id.msgContent);
 
                 JSONArray json = new JSONArray(msg.obj.toString());
-                ScrollView sv = (ScrollView) findViewById(R.id.scrollView);
                 for(int i=0;i<json.length();i++) {
                     JSONObject info = (JSONObject)json.get(i);
                     View view = null;
                     if(info.getString("fid").equals(Auth.uid)){
                         view = flater.inflate(R.layout.fragment_msg1, null);
+                        TextView name = (TextView) view.findViewById(R.id.fname);
+                        name.setText(info.getString("addtime")+" ["+info.getString("fname")+"]");
                     }else{
                         view = flater.inflate(R.layout.fragment_msg, null);
+                        TextView name = (TextView) view.findViewById(R.id.fname);
+                        name.setText("["+info.getString("fname")+"] "+info.getString("addtime"));
                     }
                     ImageView imageView = (ImageView) view.findViewById(R.id.icon);
-                    TextView name = (TextView) view.findViewById(R.id.fname);
+
                     TextView label = (TextView) view.findViewById(R.id.label);
                     imageView.setImageResource(R.drawable.headpic);
                     label.setText(info.getString("content"));
-                    name.setText("["+info.getString("fname")+"]");
+
                     layout.addView(view);
                 }
-                sv.fullScroll(ScrollView.FOCUS_DOWN);//滚动到底部
+                new Thread(sl).start();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -229,5 +231,20 @@ public class ChatActivity extends Activity implements View.OnClickListener {
         } finally {
 
         }
+    }
+    final Runnable sl = new Runnable() {
+        @Override
+        public void run() {
+            sl();
+        }
+    };
+    private void sl(){
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        ScrollView sv = (ScrollView) findViewById(R.id.scrollView);
+        sv.fullScroll(ScrollView.FOCUS_DOWN);//滚动到底部
     }
 }

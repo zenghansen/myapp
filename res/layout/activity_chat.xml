@@ -33,7 +33,7 @@
         <EditText android:layout_width="match_parent"
                   android:id="@+id/sendText"
                   android:layout_weight="0.5"
-                  android:textSize="20sp"
+                  android:textSize="14dp"
                   android:layout_height="wrap_content"/>
         <Button android:layout_width="match_parent"
                 android:id="@+id/sendBtn"

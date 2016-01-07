@@ -9,10 +9,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.Toast;
+import android.widget.*;
 import com.example.myapp.AddFrieldActivity;
 import com.example.myapp.R;
 import com.example.myapp.fragments.MessageFragment;
@@ -31,11 +28,28 @@ public class FriendFragment extends Fragment implements View.OnClickListener {
         View viewById = getActivity().findViewById(R.id.id_fragment_title);
         Button actionAdd = (Button) viewById.findViewById(R.id.action_addfrield);
         actionAdd.setOnClickListener(this);
+       new Thread(sendRun).start();
     }
+    final Runnable sendRun = new Runnable() {
+        @Override
+        public void run() {
+            sl();
+        }
+    };
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(this.getActivity(), AddFrieldActivity.class);
-        startActivity(intent);
+
+       // Intent intent = new Intent(this.getActivity(), AddFrieldActivity.class);
+       // startActivity(intent);
+    }
+    private void sl(){
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        ScrollView sv = (ScrollView) getActivity().findViewById(R.id.scrollView);
+        sv.fullScroll(ScrollView.FOCUS_DOWN);//滚动到底部
     }
 
 }

@@ -29,6 +29,11 @@ public class MessageFragment extends ListFragment implements View.OnClickListene
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
         final HashMap map = new HashMap() {{
             put("uid", Auth.uid);
             put("token", Auth.token);
@@ -53,7 +58,7 @@ public class MessageFragment extends ListFragment implements View.OnClickListene
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         String item = (String) getListAdapter().getItem(position);
-        Toast.makeText(this.getActivity(), item + " selected", Toast.LENGTH_LONG).show();
+        //Toast.makeText(this.getActivity(), item + " selected", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(this.getActivity(), ChatActivity.class);
         intent.putExtra("uid", uid[position]);
         intent.putExtra("tname", label[position]);
@@ -76,11 +81,15 @@ public class MessageFragment extends ListFragment implements View.OnClickListene
                     label = new String[data.length()];
                     Integer[] icon = new Integer[data.length()];
                     uid = new String[data.length()];
+                    String[] unread = new String[data.length()];
+                    String[] addtime = new String[data.length()];
                     for (int i = 0; i < data.length(); i++) {
                         try {
                             JSONObject info = (JSONObject) data.get(i);
                             label[i] = info.getString("name");
                             uid[i] = info.getString("id");
+                            unread[i] = info.getString("unread");
+                            addtime[i] = info.getString("addtime");
                             icon[i] = R.drawable.headpic;
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -89,11 +98,9 @@ public class MessageFragment extends ListFragment implements View.OnClickListene
                     }
 
                     CustomList adapter = new
-                            CustomList(getActivity(), label, icon, uid);
+                            CustomList(getActivity(), label, icon, uid,unread,addtime);
                     setListAdapter(adapter);
                 }
-                Toast.makeText(getActivity().getApplicationContext(), str,
-                        Toast.LENGTH_SHORT).show();
             }
         }
     };

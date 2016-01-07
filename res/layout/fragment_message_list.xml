@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="wrap_content"
+              android:layout_width="match_parent"
               android:padding="5dp"
-              android:layout_height="wrap_content" >
+              android:orientation="horizontal"
+              android:layout_gravity="center_horizontal"
+              android:layout_height="wrap_content">
 
     <ImageView
             android:id="@+id/icon"
@@ -10,7 +12,7 @@
             android:layout_height="48dp"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="10dp"
-            android:src="@drawable/icon" >
+            android:src="@drawable/icon">
     </ImageView>
 
     <TextView
@@ -18,8 +20,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:textColor="#ffacacac"
             android:text="null"
-            android:textSize="18dp" >
+            android:textSize="18dp">
     </TextView>
+    <LinearLayout android:layout_width="fill_parent"
+                  android:gravity="right"
+                  android:layout_gravity="center"
+                  android:orientation="vertical"
+                  android:layout_height="wrap_content">
+        <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#ffacacac"
+                android:height="14dp"
+                android:gravity="center"
+                android:textSize="12dp">
+        </TextView>
+        <TextView
+                android:id="@+id/ur"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#FFF"
+                android:width="18dp"
+                android:height="18dp"
+                android:gravity="center"
+                android:background="@drawable/shape"
+                android:textSize="14dp">
+        </TextView>
+    </LinearLayout>
 
 </LinearLayout> 
