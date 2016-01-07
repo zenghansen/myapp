@@ -26,7 +26,7 @@
                     style="@style/CodeFont"
                     android:id="@+id/userName"
                     android:singleLine="true"
-                    android:text="1107769317@qq.com"
+                    android:text=""
                     android:hint="@string/hint_username"/>
         </LinearLayout>
         <LinearLayout
@@ -41,7 +41,7 @@
                     style="@style/CodeFont"
                     android:id="@+id/password"
                     android:singleLine="true"
-                    android:text="123456"
+                    android:text=""
                     android:hint="@string/hint_password"
                     android:password="true"/>
         </LinearLayout>

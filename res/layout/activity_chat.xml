@@ -16,11 +16,12 @@
             android:layout_above="@+id/sendMsg"
             android:layout_below="@+id/id_fragment_title"
             android:scrollbars="vertical"
+            android:fillViewport="true"
             android:fadingEdge="vertical"
             >
-        <LinearLayout android:layout_width="match_parent"
+        <LinearLayout android:layout_width="fill_parent"
                       android:id="@+id/msgContent"
-                      android:layout_height="match_parent"
+                      android:layout_height="fill_parent"
                       android:orientation="vertical">
         </LinearLayout>
     </ScrollView>

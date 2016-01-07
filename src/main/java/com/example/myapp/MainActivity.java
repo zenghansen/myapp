@@ -96,14 +96,14 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 // 使用当前Fragment的布局替代id_content的控件
                 transaction.replace(R.id.id_content, mWeixin);
                 break;
-            case R.id.tab_bottom_friend:
+            /*case R.id.tab_bottom_friend:
                 if (mFriend == null)
                 {
                     mFriend = new FriendFragment();
                 }
                 add.setVisibility(View.VISIBLE);
                 transaction.replace(R.id.id_content, mFriend);
-                break;
+                break;*/
             case R.id.tab_bottom_me:
                 if (mInfo == null)
                 {

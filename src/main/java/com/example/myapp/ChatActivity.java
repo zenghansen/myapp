@@ -47,13 +47,16 @@ public class ChatActivity extends Activity implements View.OnClickListener {
         Button sendbtn = (Button) this.findViewById(R.id.sendBtn);
         TextView text = (TextView) viewById.findViewById(R.id.app_title);
         btn.setImageDrawable(this.getResources().getDrawable(R.drawable.back));
-        text.setText("某某某");
         btn.setOnClickListener(this);
         sendbtn.setOnClickListener(this);
 
         Bundle bundle = this.getIntent().getExtras();
         this.tid = bundle.getString("uid");
+        text.setText(bundle.getString("tname"));
         doChat();
+
+        ScrollView sv = (ScrollView) findViewById(R.id.scrollView);
+        sv.fullScroll(ScrollView.FOCUS_DOWN);//滚动到底部
     }
 
     @Override
@@ -93,6 +96,7 @@ public class ChatActivity extends Activity implements View.OnClickListener {
                 LinearLayout layout = (LinearLayout) findViewById(R.id.msgContent);
 
                 JSONArray json = new JSONArray(msg.obj.toString());
+                ScrollView sv = (ScrollView) findViewById(R.id.scrollView);
                 for(int i=0;i<json.length();i++) {
                     JSONObject info = (JSONObject)json.get(i);
                     View view = null;
@@ -109,9 +113,8 @@ public class ChatActivity extends Activity implements View.OnClickListener {
                     name.setText("["+info.getString("fname")+"]");
                     layout.addView(view);
                 }
-                ScrollView sv = (ScrollView) findViewById(R.id.scrollView);
                 sv.fullScroll(ScrollView.FOCUS_DOWN);//滚动到底部
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 

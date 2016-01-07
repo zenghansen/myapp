@@ -12,6 +12,13 @@
             android:layout_weight="1"
             android:text="@string/f1_name"/>
     <Button
+            android:id="@+id/tab_bottom_me"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:background="#ffd6ffe4"
+            android:layout_weight="1"
+            android:text="@string/f4_name"/>
+    <Button
             android:id="@+id/tab_bottom_friend"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -25,11 +32,4 @@
             android:background="#ffd6ffe4"
             android:layout_weight="1"
             android:text="@string/f3_name"/>
-    <Button
-            android:id="@+id/tab_bottom_me"
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:background="#ffd6ffe4"
-            android:layout_weight="1"
-            android:text="@string/f4_name"/>
 </LinearLayout>

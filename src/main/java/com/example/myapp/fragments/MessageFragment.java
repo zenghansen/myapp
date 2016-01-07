@@ -22,6 +22,7 @@ import java.util.HashMap;
 
 public class MessageFragment extends ListFragment implements View.OnClickListener {
     private String[] uid = null;
+    private String[] label = null;
     private View view = null;
 
     @Override
@@ -55,6 +56,7 @@ public class MessageFragment extends ListFragment implements View.OnClickListene
         Toast.makeText(this.getActivity(), item + " selected", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(this.getActivity(), ChatActivity.class);
         intent.putExtra("uid", uid[position]);
+        intent.putExtra("tname", label[position]);
         startActivity(intent);
     }
 
@@ -71,7 +73,7 @@ public class MessageFragment extends ListFragment implements View.OnClickListene
             if (getActivity() != null) {
                 if (!(Boolean) map.get("error")) {
                     JSONArray data = (JSONArray) map.get("data");
-                    String[] label = new String[data.length()];
+                    label = new String[data.length()];
                     Integer[] icon = new Integer[data.length()];
                     uid = new String[data.length()];
                     for (int i = 0; i < data.length(); i++) {
